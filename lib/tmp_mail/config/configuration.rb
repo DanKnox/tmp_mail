@@ -8,7 +8,7 @@ module TmpMail
     def initialize
       @mongoid_config = "#{File.dirname(__FILE__)}/mongoid.yml"
       @include_root_in_json = false
-      @maildir_path = ENV['maildir_path']
+      @maildir_path = ENV['MAILDIR_PATH']
     end
 
   end
