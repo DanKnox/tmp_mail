@@ -22,7 +22,7 @@ module TmpMail
   end
 
   if config.maildir_path
-    Mailman.maildir = config.maildir_path
+    Mailman.config.maildir = config.maildir_path
   end
 end
 
