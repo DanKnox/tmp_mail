@@ -1,3 +1,5 @@
+require "tmp_mail/serializers/inbox"
+
 module TmpMail
   class Inbox
 

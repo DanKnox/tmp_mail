@@ -1,3 +1,5 @@
+require "tmp_mail/serializers/message"
+
 module TmpMail
   class Message
 

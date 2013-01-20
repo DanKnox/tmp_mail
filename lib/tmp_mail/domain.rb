@@ -1,3 +1,5 @@
+require "tmp_mail/serializers/domain"
+
 module TmpMail
   class Domain
 

@@ -8,12 +8,15 @@ module TmpMail
     get '/messages' do
       address = "#{params[:inbox]}@#{params[:domain]}"
       inbox = current_user.inboxes.find_by(address: address)
-      body(inbox.messages.to_json)
+
+      serializer = array_serializer(inbox.messages, each_serializer: MessageSerializer)
+      body serializer.to_json
     end
 
     get '/messages/:id' do
       message = Message.find(params[:id])
-      body(message.to_json)
+      serializer = MessageSerializer.new(message, current_user)
+      body serializer.to_json
     end
 
   end

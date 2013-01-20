@@ -10,6 +10,12 @@ module TmpMail
       use Rack::Reloader
     end
 
+    helpers do
+      def array_serializer(array, options)
+        ActiveModel::ArraySerializer.new(array, options)
+      end
+    end
+
     before do
       content_type "application/json"
     end

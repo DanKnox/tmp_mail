@@ -19,6 +19,7 @@ module TmpMail
     private
 
     def find_or_create_inboxes_for_recipients(recipients)
+      return unless recipients && recipients.any?
       recipients.each_with_object([]) do |address, inboxes|
         inboxes << Inbox.find_or_create_by(address: address)
       end
