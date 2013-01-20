@@ -20,6 +20,10 @@ module TmpMail
   if ActiveModel::Serializer.respond_to?(:root=)
     ActiveModel::Serializer.root = config.include_root_in_json
   end
+
+  if config.maildir_path
+    Mailman.maildir = config.maildir_path
+  end
 end
 
 require "tmp_mail/user"
