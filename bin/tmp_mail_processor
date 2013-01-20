@@ -1,0 +1,12 @@
+#!/usr/bin/env ruby
+
+require "rubygems"
+require "bundler/setup"
+require "mailman"
+require "tmp_mail"
+
+Mailman::Application.run do
+  default do
+    TmpMail::Processor.process(message)
+  end
+end
