@@ -111,6 +111,7 @@ DEPENDENCIES
   mail
   mailman
   mongoid
+  pry
   rack-test
   rake
   rb-fsevent

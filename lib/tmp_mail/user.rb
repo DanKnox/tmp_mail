@@ -5,7 +5,6 @@ module TmpMail
   class User
 
     include BCrypt
-    include ActiveModel::SerializerSupport
     include Mongoid::Document
 
     field :email, type: String
@@ -54,7 +53,7 @@ module TmpMail
         errors.add(:inbox, "has been claimed by another user")
         return nil
       else
-        inboxes << inbox
+        inboxes << inbox unless inboxes.include?(inbox)
         save
       end
 
@@ -65,7 +64,8 @@ module TmpMail
     end
 
     def join_domain(domain_name)
-      domains << Domain.find_by(name: domain_name)
+      domain = Domain.find_by(name: domain_name)
+      domains << domain unless domains.include?(domain)
       save
     rescue Mongoid::Errors::DocumentNotFound
       errors.add(:domain, "does not exist")

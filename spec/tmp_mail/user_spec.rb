@@ -32,8 +32,13 @@ module TmpMail
         end
 
         it "assigns the inbox to the user" do
-          inbox = @user.claim_inbox("dknox", "whatever.com")
+          @user.claim_inbox("dknox", "whatever.com")
           @user.inboxes.count.should == 1
+        end
+
+        it "creates the new inbox with a valid address" do
+          inbox = @user.claim_inbox("newinbox", "whatever.com")
+          inbox.address.address.should == "newinbox@whatever.com"
         end
       end
 

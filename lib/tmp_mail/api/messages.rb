@@ -6,16 +6,17 @@ module TmpMail
     end
 
     get '/messages' do
-      address = "#{params[:inbox]}@#{params[:domain]}"
-      inbox = current_user.inboxes.find_by(address: address)
+      domain = Domain.find_by(name: params[:domain])
+      inbox = current_user.inboxes.find_by(name: params[:inbox], domain_id: domain.id)
+      messages = inbox.messages.order_by(:date.asc)
 
-      serializer = array_serializer(inbox.messages, each_serializer: MessageSerializer)
+      serializer = array_serializer(messages, each_serializer: MessageSerializer)
       body serializer.to_json
     end
 
     get '/messages/:id' do
       message = Message.find(params[:id])
-      serializer = MessageSerializer.new(message, current_user)
+      serializer = MessageSerializer.new(message)
       body serializer.to_json
     end
 

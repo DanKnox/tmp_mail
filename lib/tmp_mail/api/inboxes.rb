@@ -3,7 +3,7 @@ module TmpMail
 
     helpers do
       def serialize_inboxes(inboxes)
-        array_serializer(inboxes, each_serializer: InboxSerializer)
+        ActiveModel::ArraySerializer.new(inboxes, each_serializer: InboxSerializer)
       end
     end
 
@@ -13,15 +13,13 @@ module TmpMail
 
     get '/inboxes' do
       inboxes = current_user.inboxes
-      serializer = serialize_inboxes(inboxes)
-      body serializer.to_json
+      body inboxes.to_json
     end
 
     post '/inboxes/claim' do
       if current_user.claim_inbox(params[:name], params[:domain])
         status 200
-        serializer = serialize_inboxes(current_user.inboxes)
-        body serializer.to_json
+        body current_user.inboxes.to_json
       else
         status 422
         body current_user.errors.to_json

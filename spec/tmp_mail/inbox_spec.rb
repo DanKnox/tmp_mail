@@ -13,6 +13,44 @@ module TmpMail
       inbox.domain.name.should == "notsospecial.com"
     end
 
+    describe "before_create hooks" do
+      before do
+        @domain = Domain.create(name: "super.com")
+      end
+
+      describe "#extract_name_or_address" do
+        context "when creating an inbox by name" do
+          it "creates a valid address" do
+            inbox = @domain.inboxes.create(name: "testbox")
+            inbox.address.to_s.should == "testbox@super.com"
+          end
+        end
+
+        context "when creating an inbox by address" do
+          it "extracts inbox name from the address" do
+            inbox = Inbox.create(address: "testbox@super.com")
+            inbox.name.should == "testbox"
+          end
+        end
+      end
+
+      describe "#associate_domain" do
+        context "when creating an inbox through a domain" do
+          it "associates the correct domain" do
+            inbox = @domain.inboxes.create(name: "testbox")
+            inbox.domain.should == @domain
+          end
+        end
+
+        context "when creating an inbox by address" do
+          it "associates the correct domain" do
+            inbox = Inbox.create(address: "testbox@super.com")
+            inbox.domain.should == @domain
+          end
+        end
+      end
+    end
+
     describe "#deliver" do
       before do
         @email = ::Mail.read("#{FIXTURES}/email.eml")

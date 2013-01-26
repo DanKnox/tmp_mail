@@ -1,5 +1,5 @@
 #!/usr/bin/env ruby
 
-require 'irb'
+require 'pry'
 require File.expand_path('../lib/tmp_mail', File.dirname(__FILE__))
-IRB.start(__FILE__)
+Pry.start(__FILE__)

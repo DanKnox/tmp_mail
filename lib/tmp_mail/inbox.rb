@@ -12,8 +12,8 @@ module TmpMail
     belongs_to :domain
     belongs_to :user
 
-    before_create :associate_domain
     before_create :extract_name_or_address
+    before_create :associate_domain
 
     validates_uniqueness_of :address
 
@@ -26,17 +26,27 @@ module TmpMail
       messages.count
     end
 
+    def serializable_hash(*args)
+      {
+        name: name,
+        message_count: messages.count,
+        domain: domain.try(:name),
+        full_address: address.to_s
+      }
+    end
+
     private
 
     def extract_name_or_address
       if name.nil?
         self.name = address.address.split("@").first
-      elsif address.nil?
-        self.address = "#{name}@#{domain.name}"
+      elsif address.to_s.blank?
+        self.address = Address.new("#{name}@#{domain.name}")
       end
     end
 
     def associate_domain
+      return if domain.present?
       self.domain = Domain.find_or_create_by(name: address.domain)
     end
 

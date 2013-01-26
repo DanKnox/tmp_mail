@@ -17,7 +17,7 @@ module TmpMail
     end
 
     def full_address
-      "#{object.name}@#{object.domain.name}"
+      object.address.to_s
     end
 
   end

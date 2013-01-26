@@ -10,6 +10,10 @@ module TmpMail
       use Rack::Reloader
     end
 
+    configure :test do
+
+    end
+
     helpers do
       def array_serializer(array, options)
         ActiveModel::ArraySerializer.new(array, options)
